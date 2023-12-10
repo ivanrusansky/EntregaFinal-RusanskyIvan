@@ -1,0 +1,27 @@
+[
+    {
+      "codigo": "buzo",
+      "nombre": "Buzo",
+      "precio": 47000
+    },
+    {
+      "codigo": "remera",
+      "nombre": "Remera",
+      "precio": 18000
+    },
+    {
+      "codigo": "pantalon",
+      "nombre": "Pantalón",
+      "precio": 40000
+    },
+    {
+      "codigo": "campera",
+      "nombre": "Campera",
+      "precio": 60000
+    },
+    {
+      "codigo": "gorra",
+      "nombre": "Gorra",
+      "precio": 13000
+    }
+  ]
