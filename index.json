@@ -1,32 +1,32 @@
 [
-  {
-      "codigo": "buzo",
-      "nombre": "Buzo",
-      "precio": 47000,
-      "imagen": "/img/buzo01.png"
-  },
-  {
-      "codigo": "remera",
-      "nombre": "Remera",
-      "precio": 18000,
-      "imagen": "/img/remera01.png"
-  },
-  {
-      "codigo": "pantalon",
-      "nombre": "Pantalón",
-      "precio": 40000,
-      "imagen": "/img/pantalon01.png"
-  },
-  {
-      "codigo": "campera",
-      "nombre": "Campera",
-      "precio": 60000,
-      "imagen": "/img/campera01.png"
-  },
-  {
-      "codigo": "gorra",
-      "nombre": "Gorra",
-      "precio": 13000,
-      "imagen": "/img/gorra01.png"
-  }
+    {
+        "codigo": "buzo",
+        "nombre": "Buzo",
+        "precio": 47000,
+        "imagen": "/img/buzo01.png"
+    },
+    {
+        "codigo": "remera",
+        "nombre": "Remera",
+        "precio": 18000,
+        "imagen": "/img/remera01.png"
+    },
+    {
+        "codigo": "pantalon",
+        "nombre": "Pantalón",
+        "precio": 40000,
+        "imagen": "/img/pantalon01.png"
+    },
+    {
+        "codigo": "campera",
+        "nombre": "Campera",
+        "precio": 60000,
+        "imagen": "/img/campera01.png"
+    },
+    {
+        "codigo": "gorra",
+        "nombre": "Gorra",
+        "precio": 13000,
+        "imagen": "/img/gorra01.png"
+    }
 ]
