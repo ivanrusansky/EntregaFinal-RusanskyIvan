@@ -1,41 +1,44 @@
 // Recuperación del carrito desde localStorage
-const carrito = JSON.parse(localStorage.getItem('carrito')) || [];
-let ropa = [];
+let carrito = JSON.parse(localStorage.getItem('carrito')) || [];
+let contadorCarrito = carrito.length; // Actualización del contador con la longitud del carrito
 
-// Función para cargar la lista de productos y realizar operaciones relacionadas con el carrito
+// Actualización del contador del carrito en la carga de la página
+actualizarContadorCarrito();
+
+document.addEventListener('DOMContentLoaded', function () {
+    // Asociar evento de clic al botón "Confirmar Compra"
+    document.getElementById('confirmarCompra').addEventListener('click', solicitarConfirmacion);
+
+    // Cargar productos en el carrito al cargar la página
+    cargarProductos();
+});
+
 function cargarProductos() {
-    // lista de productos desde el archivo JSON usando fetch
-    fetch('../index.json')
-        .then(response => response.json())
-        .then(data => {
-            // Actualizar la lista de productos
-            ropa = data;
-
-            // Lógica relacionada con el carrito
-            actualizarCarrito();
-            actualizarInformacion();
-        })
-        .catch(error => console.error('Error al cargar el archivo JSON:', error));
-}
-
-// Llamada a la función para cargar productos cuando la página se cargue
-cargarProductos();
-
-// Función para actualizar la tabla de carrito en carrito.html
-function actualizarCarrito() {
+    // Obtener el cuerpo de la tabla y el elemento del total
     const cuerpoTabla = document.getElementById('carrito-body');
     const totalElement = document.getElementById('total');
+
+    // Verificar si los elementos existen antes de intentar acceder a ellos
+    if (!cuerpoTabla || !totalElement) {
+        console.error('Elementos no encontrados en el DOM');
+        return;
+    }
+
     cuerpoTabla.innerHTML = '';
 
-    let totalCompra = 0;
+    let totalCompra = 0; // Inicializar el total de la compra
 
-    carrito.forEach(producto => {
+    const carritoUnico = [...new Set(carrito)]; // Eliminar duplicados del carrito
+
+    carritoUnico.forEach(producto => {
+        const cantidad = carrito.filter(item => item.codigo === producto.codigo).length;
+
         const fila = document.createElement('tr');
-        fila.innerHTML = `<td>${producto.nombre}</td><td>$${producto.precio}</td>`;
+        fila.innerHTML = `<td>${producto.nombre} (${cantidad} ${cantidad > 1 ? 'unidades' : 'unidad'})</td><td>$${producto.precio * cantidad}</td>`;
         cuerpoTabla.appendChild(fila);
 
         // Actualización del total de la compra
-        totalCompra += producto.precio;
+        totalCompra += producto.precio * cantidad;
     });
 
     // Actualización del total en el elemento HTML
@@ -48,7 +51,7 @@ function actualizarCarrito() {
 function solicitarConfirmacion() {
     const cuotas = document.getElementById('cuotas').value;
     const totalCompra = calcularTotalCompra();
-    const cuotaMensual = (cuotas > 0) ? totalCompra / cuotas : 0;
+    const cuotaMensual = cuotas > 0 ? totalCompra / cuotas : 0;
 
     // SweetAlert
     Swal.fire({
@@ -60,10 +63,8 @@ function solicitarConfirmacion() {
         cancelButtonText: 'Cancelar'
     }).then((result) => {
         if (result.isConfirmed) {
-
             realizarCompra();
         } else {
-
             Swal.fire('Compra cancelada', '', 'error');
         }
     });
@@ -74,7 +75,7 @@ function realizarCompra() {
     vaciarCarrito();
 
     setTimeout(() => {
-        //SweetAlert de compra exitosa
+        // SweetAlert de compra exitosa
         Swal.fire({
             title: '¡Compra exitosa!',
             text: 'Gracias por elegirnos.',
@@ -101,14 +102,14 @@ function calcularTotalCompra() {
 function actualizarInformacion() {
     const cuotasSeleccionadas = parseInt(document.getElementById('cuotas').value);
 
-    //Precio total de la compra
+    // Precio total de la compra
     const totalCompra = calcularTotalCompra();
 
     // Actualización del precio total en el elemento HTML
     document.getElementById('precio-total').innerText = `$${totalCompra.toFixed(2)}`;
 
     // Calculo del precio por mes
-    const precioPorMes = (cuotasSeleccionadas > 0) ? totalCompra / cuotasSeleccionadas : 0;
+    const precioPorMes = cuotasSeleccionadas > 0 ? totalCompra / cuotasSeleccionadas : 0;
 
     // Precio por mes en la tabla
     const cuerpoTablaCuotas = document.getElementById('tabla-cuotas');
@@ -116,7 +117,7 @@ function actualizarInformacion() {
 
     for (let i = 1; i <= cuotasSeleccionadas; i++) {
         const filaCuota = document.createElement('tr');
-        filaCuota.innerHTML = `<td>${i} cuota${(i > 1) ? 's' : ''}</td><td>$${precioPorMes.toFixed(2)}</td>`;
+        filaCuota.innerHTML = `<td>${i} cuota${i > 1 ? 's' : ''}</td><td>$${precioPorMes.toFixed(2)}</td>`;
         cuerpoTablaCuotas.appendChild(filaCuota);
     }
 }
